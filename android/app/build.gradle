@@ -3,6 +3,9 @@ apply plugin: "com.facebook.react"
 //added by me
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
+//added by me for firebase
+apply plugin: 'com.google.gms.google-services'
+
 import com.android.build.OutputFile
 
 /**
@@ -167,6 +170,14 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    //for direbase number auth
+     // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:31.3.0')
+
+    // Add the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth'
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
