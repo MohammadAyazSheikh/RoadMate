@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Animated, View, Image, Text, TextInput, TextInputProps, ViewStyle } from 'react-native';
+import { Animated, View, Image, Text, TextInput, TextInputProps, ViewStyle, Alert } from 'react-native';
 import { useFunctionalOrientation } from '../../utils/functions/responsiveUtils';
 import responsiveStyles from './styles/styles';
 import auth from '@react-native-firebase/auth';
@@ -9,6 +9,7 @@ import { RootStackProps } from '../../routes/rootNavigation';
 import colors from '../../theme/colors';
 import IconFa from 'react-native-vector-icons/FontAwesome';
 import TextBox from '../../components/general/textBox/textBox';
+import CustomButton from '../../components/general/customButton/customButton';
 
 export default function Auth() {
 
@@ -34,7 +35,10 @@ export default function Auth() {
                     style={styles.inputIconStyle}
                 />}
                 keyboardType='phone-pad'
-                placeholder='Enter phone number eg:0314 987654'
+                placeholder='Enter phone number eg: 0314 987654'
+            />
+            <CustomButton
+                buttonText='Login'
             />
         </View>
     );
