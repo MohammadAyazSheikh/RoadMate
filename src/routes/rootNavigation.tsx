@@ -5,11 +5,13 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import colors from '../theme/colors';
 import AuthScreen from '../screens/authScreen/authScreen';
 import Splash from '../screens/splashScreen/splashScreen';
+import AddUserInfo from '../screens/addUserInfoScreen/addUserInfoScreen';
 
 export type RootStackProps = {
   Splash: undefined;
   Auth: undefined;
   User: undefined;
+  AddUserInfo: undefined;
 };
 
 const Screen = () => {
@@ -44,6 +46,7 @@ const AuthRoute = () => {
           headerShown: false,
         }}
       />
+
     </>
   );
 };
@@ -108,6 +111,13 @@ function RootNav() {
           <Stack.Screen
             name="Auth"
             component={AuthScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AddUserInfo"
+            component={AddUserInfo}
             options={{
               headerShown: false,
             }}

@@ -23,8 +23,8 @@ const portraitStyles = (w: p, h: p) => {
         },
         textLogo: {
             color: colors.yellow1,
-            fontSize: w(fontSize.size18),
-            fontFamily: fontFamily.bold,
+            fontSize: w(fontSize.size19*1.5),
+            fontFamily: fontFamily.fancy,
         },
     });
 }

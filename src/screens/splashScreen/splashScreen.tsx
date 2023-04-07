@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Animated, View } from 'react-native';
+import { Animated, View, Text } from 'react-native';
 import { useFunctionalOrientation } from '../../utils/functions/responsiveUtils';
 import responsiveStyles from './styles/styles';
 import { useNavigation } from '@react-navigation/core'
@@ -71,14 +71,17 @@ const Splash = () => {
         <View style={styles.container}>
             <Animated.Image
                 style={[{
-                    width: isPortrait ? widthToDp(70) : widthToDp(70),
-                    height: isPortrait ? heightToDp(70) : heightToDp(70),
+                    width: isPortrait ? widthToDp(30) : widthToDp(30),
+                    height: isPortrait ? heightToDp(30) : heightToDp(30),
 
                     transform: [{ translateY }, { scale }]
                 }]}
-                source={require('./../../../assets/icons/logoWithDots.png')}
+                source={require('./../../../assets/icons/logo.png')}
                 resizeMode={"contain"}
             />
+            <Text style={styles.textLogo}>
+                Road Mate
+            </Text>
         </View>
     );
 }

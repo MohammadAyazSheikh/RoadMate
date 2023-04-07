@@ -33,10 +33,9 @@ const TextBox = ({ icon: Icon, iconPosition = "left", inputViewStyle = {}, input
                 onBlur={() => setFocus(false)}
                 style={[
                     styles.inputStyle,
-
                 ]}
                 placeholder='Enter Value'
-                placeholderTextColor={colors.grey3}
+                placeholderTextColor={colors.grey4}
                 {...inputProps}
             />
             {iconPosition == "right" && Icon && <Icon />}
