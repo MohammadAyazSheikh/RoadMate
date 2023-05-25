@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, } from 'react-native';
+import { View, TouchableOpacity, Text, Image, } from 'react-native';
 import { useFunctionalOrientation } from '../../utils/functions/responsiveUtils';
 import responsiveStyles from './styles/styles';
 import { useNavigation } from '@react-navigation/core'
 import type { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackProps } from '../../routes/rootNavigation';
-import IconFa from 'react-native-vector-icons/FontAwesome';
+import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconMtc from 'react-native-vector-icons/MaterialCommunityIcons';
 import TextBox from '../../components/general/textBox/textBox';
 import CustomButton from '../../components/general/customButton/customButton';
@@ -13,15 +13,32 @@ import { fontStyle } from '../../theme/fonts';
 import { RadioButton } from 'react-native-paper'
 import colors from '../../theme/colors';
 import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { ordered } from '../../redux/features/examples/cakeSlice';
+import { useAppSelector } from '../../redux/hooks';
 export default function AddUserInfo() {
+
+
+    // const cake = useAppSelector(state => state.cake);
+    // const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         dispatch(ordered());
+    //     }, 500);
+    // }, [])
+
+    // useEffect(() => {
+    //     console.log(JSON.stringify(cake))
+    // }, [cake])
 
     const [firstName, setFirstName] = useState(null);
     const [firstNameErr, setFirstNameErr] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [lastNameErr, setLastNameErr] = useState(null);
+    const [image, setImage] = useState<string | null>(null);
 
     const [gender, setGender] = useState<"male" | "female">("male");
 
@@ -58,6 +75,40 @@ export default function AddUserInfo() {
                     Details
                 </Text>
             </View>
+            {/* ----profile Image */}
+            <View style={styles.imgProfileView}>
+                {
+                    image ?
+                        <Image
+                            style={styles.imgStyle}
+                            source={{ uri: image }}
+                        />
+                        :
+                        <Image
+                            style={styles.imgStyle}
+                            source={require('../../../assets/icons/user.jpg')}
+                        />
+                }
+                <TouchableOpacity
+                    style={styles.plusIconView}
+                    onPress={() => {
+                        ImagePicker.openPicker({
+                            mediaType: "photo",
+                            multiple: false,
+                        })
+                            .then((image) => {
+                                setImage(image.path);
+                            })
+                            .catch(err => console.log(err));
+                    }}
+                >
+                    <IconAnt
+                        name={image ? 'edit' : 'plus'}
+                        style={styles.iconPlusStyle}
+                    />
+                </TouchableOpacity>
+            </View>
+
             {/* ----First name---- */}
             <TextBox
                 icon={() => <IconMtc name="card-account-details-outline"

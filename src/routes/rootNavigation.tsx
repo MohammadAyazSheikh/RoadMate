@@ -6,12 +6,15 @@ import colors from '../theme/colors';
 import AuthScreen from '../screens/authScreen/authScreen';
 import Splash from '../screens/splashScreen/splashScreen';
 import AddUserInfo from '../screens/addUserInfoScreen/addUserInfoScreen';
+import RootDrawer from './rootDrawer/rootDrawer';
+import { useAppSelector } from './../redux/hooks';
 
 export type RootStackProps = {
   Splash: undefined;
   Auth: undefined;
   User: undefined;
   AddUserInfo: undefined;
+  RootDrawer: undefined;
 };
 
 const Screen = () => {
@@ -72,6 +75,9 @@ function RootNav() {
 
 
 
+  const user = useAppSelector(state => state.user);
+
+
   return (
     <NavigationContainer
       theme={{
@@ -87,43 +93,26 @@ function RootNav() {
         // hidden={isPortrait ? false : true}
         animated
       />
-      <>
-        <Stack.Navigator
-          initialRouteName={"Splash"}
-          screenOptions={{
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: 'tomato',
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            // animationEnabled: false
-          }}>
+      <Stack.Navigator
+        initialRouteName={"Splash"}
+        screenOptions={{
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: 'tomato',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          // animationEnabled: false
+        }}>
+        {
+          user.user ?
+            UserRoute()
+            :
+            AuthRoute()
+        }
+      </Stack.Navigator>
 
-          <Stack.Screen
-            name="Splash"
-            component={Splash}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Auth"
-            component={AuthScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="AddUserInfo"
-            component={AddUserInfo}
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack.Navigator>
-      </>
     </NavigationContainer>
   );
 }

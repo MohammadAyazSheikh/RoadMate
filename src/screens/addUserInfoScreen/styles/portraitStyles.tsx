@@ -31,7 +31,38 @@ const portraitStyles = (w: p, h: p) => {
             fontSize: w(fontSize.size19),
             fontFamily: fontFamily.regular,
         },
+        imgProfileView: {
+            width: w(30),
+            height: w(30),
+            borderColor: colors.yellow1,
+            borderWidth: 3,
+            borderRadius: w(30),
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        imgStyle: {
+            width: "100%",
+            height: "100%",
+            borderRadius: w(30),
+            resizeMode: 'contain',
 
+        },
+        plusIconView: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: colors.yellow1,
+            borderColor: colors.grey3,
+            borderWidth: 2,
+            borderRadius: w(7),
+            padding:3,
+            position: 'absolute',
+            top: "0%",
+            right: "0%"
+        },
+        iconPlusStyle: {
+            fontSize: w(5),
+            color:colors.grey3,
+        },
         inputIconStyle: {
             color: colors.yellow1,
             fontSize: w(fontSize.size12),
