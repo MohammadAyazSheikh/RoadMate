@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore, } from '@reduxjs/toolkit'
 
 import userReducer from './features/user/userSlice';
 
@@ -6,7 +6,10 @@ import userReducer from './features/user/userSlice';
 const store = configureStore({
   reducer: {
     user: userReducer,
-  }
+  },
+  //added this line because when passing Date object to the reducer it is throwing error 
+  //"A non-serializable value was detected in an action,"
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
 })
 
 export default store;

@@ -14,3 +14,16 @@ export function validatePhoneNumber(input_str: string) {
 export function numberWithCommas(num: string | number) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+export function validateName(name: string) {
+    // Regular expression pattern for validating the first name (allows only alphabetic characters)
+    var namePattern = /^[A-Za-z]+$/;
+
+
+    // Check if the first name matches the name pattern
+    if (namePattern.test(name)) {
+        return true; // First name is valid
+    } else {
+        return false; // First name contains invalid characters
+    }
+
+}

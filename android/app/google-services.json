@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "613546281909",
-    "project_id": "road-mate-e9736",
-    "storage_bucket": "road-mate-e9736.appspot.com"
+    "project_number": "53306986185",
+    "project_id": "road-mate-67da9",
+    "storage_bucket": "road-mate-67da9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:613546281909:android:1ab990594d26da56b167fc",
+        "mobilesdk_app_id": "1:53306986185:android:0be77878de459fd0ce0718",
         "android_client_info": {
           "package_name": "com.roadmate"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "613546281909-1at6fos5bnq4s28525tg9utuqo0k76gl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDtCub1b0xXO6mW-W1KMLPiWglqxlLSY78"
+          "current_key": "AIzaSyAFzIJB5nhcvkloD32D_XK-VxciGlt8Mgc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "613546281909-1at6fos5bnq4s28525tg9utuqo0k76gl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

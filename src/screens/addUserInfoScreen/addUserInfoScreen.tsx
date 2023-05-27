@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, Image, } from 'react-native';
+import { View, TouchableOpacity, Text, Image, Alert } from 'react-native';
 import { useFunctionalOrientation } from '../../utils/functions/responsiveUtils';
 import responsiveStyles from './styles/styles';
 import { useNavigation } from '@react-navigation/core'
@@ -15,36 +15,33 @@ import colors from '../../theme/colors';
 import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
-import { ordered } from '../../redux/features/examples/cakeSlice';
-import { useAppSelector } from '../../redux/hooks';
+import { validateName } from '../../utils/functions/validations';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { updateUserError, updateUserLoading, updateUserSuccess, userType } from '../../redux/features/user/userSlice';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import Loader from '../../components/general/loader/loader';
+import Toast from 'react-native-toast-message';
+import uuid from 'react-native-uuid';
+
+
 export default function AddUserInfo() {
 
 
-    // const cake = useAppSelector(state => state.cake);
-    // const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const user = useAppSelector(state => state.user);
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         dispatch(ordered());
-    //     }, 500);
-    // }, [])
-
-    // useEffect(() => {
-    //     console.log(JSON.stringify(cake))
-    // }, [cake])
-
-    const [firstName, setFirstName] = useState(null);
-    const [firstNameErr, setFirstNameErr] = useState(null);
-    const [lastName, setLastName] = useState(null);
-    const [lastNameErr, setLastNameErr] = useState(null);
+    const [firstName, setFirstName] = useState<string | null>(null);
+    const [firstNameErr, setFirstNameErr] = useState<string | null>(null);
+    const [lastName, setLastName] = useState<string | null>(null);
+    const [lastNameErr, setLastNameErr] = useState<string | null>(null);
     const [image, setImage] = useState<string | null>(null);
-
     const [gender, setGender] = useState<"male" | "female">("male");
+    const [dob, setDob] = useState<Date>(new Date());
 
     const navigation = useNavigation<StackNavigationProp<RootStackProps>>();
 
-    const [dob, setDob] = useState<Date>(new Date());
+
 
     const onChange = (event: DateTimePickerEvent, selectedDate: Date | undefined) => {
         const currentDate = selectedDate;
@@ -64,6 +61,35 @@ export default function AddUserInfo() {
 
     const { styles, heightToDp: h, widthToDp: w } = useFunctionalOrientation(responsiveStyles);
 
+    const addInfo = (dataToPost: userType) => {
+
+        console.log(JSON.stringify(dataToPost, null, 2));
+        // dispatch(updateUserSuccess(dataToPost));
+        //saving in firebase
+        firestore()
+            .collection('Users')
+            .add(dataToPost)
+            .then(() => {
+                dispatch(updateUserSuccess(dataToPost));
+                Toast.show({
+                    type: 'successMsg',
+                    text1: 'Welcome To RoadMate',
+                    text2: 'User Info added! 🥳',
+                    autoHide: true
+                });
+                console.log('User Info added! 🥳');
+            }).catch(err => {
+                Toast.show({
+                    type: 'errorMsg',
+                    text1: 'Error',
+                    text2: 'Facing error while adding user info 😐',
+                    autoHide: true
+                });
+                dispatch(updateUserError(String(err)))
+                console.error('User add Info failed', JSON.stringify(err));
+            })
+    }
+
     return (
         <View style={styles.container}>
 
@@ -78,10 +104,10 @@ export default function AddUserInfo() {
             {/* ----profile Image */}
             <View style={styles.imgProfileView}>
                 {
-                    image ?
+                    image || user.user?.profileImage ?
                         <Image
                             style={styles.imgStyle}
-                            source={{ uri: image }}
+                            source={{ uri: image ? image : String(user.user?.profileImage) }}
                         />
                         :
                         <Image
@@ -115,6 +141,21 @@ export default function AddUserInfo() {
                     style={styles.inputIconStyle}
                 />}
                 placeholder='First Name'
+                value={firstName ? firstName : ""}
+                onChangeText={(value) => {
+                    setFirstName(value);
+                    if (firstName) {
+                        if (validateName(value)) {
+                            setFirstNameErr(null)
+                        }
+                        else {
+                            setFirstNameErr("Invalid name")
+                        }
+                    }
+                    else {
+                        setFirstNameErr("Please enter first name")
+                    }
+                }}
             />
             {
                 firstNameErr && <Text
@@ -131,6 +172,21 @@ export default function AddUserInfo() {
                     style={styles.inputIconStyle}
                 />}
                 placeholder='Last Name'
+                value={lastName ? lastName : ""}
+                onChangeText={(value) => {
+                    setLastName(value);
+                    if (lastName) {
+                        if (validateName(value)) {
+                            setLastNameErr(null)
+                        }
+                        else {
+                            setLastNameErr("Invalid name")
+                        }
+                    }
+                    else {
+                        setLastNameErr("Please enter last name")
+                    }
+                }}
             />
             {
                 lastNameErr && <Text
@@ -187,7 +243,72 @@ export default function AddUserInfo() {
                 </View>
             </TouchableOpacity>
             <CustomButton
-                buttonText='Submit'
+                buttonText='Add Info'
+                disabled={Boolean(firstNameErr || lastNameErr)}
+                onPress={async () => {
+                    if (!firstName)
+                        setFirstNameErr("Please enter first name");
+                    if (!lastName)
+                        setLastNameErr("Please enter last name");
+
+                    if (firstName && lastName) {
+
+                        dispatch(updateUserLoading());
+
+
+                        const dataToPost: userType = {
+                            email: user.user?.email ? user.user.email : "",
+                            userId: user.user?.userId ? user.user.userId : "",
+                            firstName: firstName,
+                            lastName: lastName,
+                            gender: gender,
+                            dob: dob,
+                            phoneNumber: "jh",
+                            profileImage: user.user?.profileImage ? user.user?.profileImage : ""
+                        };
+
+                        //if user selects image
+                        if (image) {
+                            try {
+                                const remotePath = `userFiles/images/${user.user?.email}/profileImages/${user.user?.email}${uuid.v4()}.jpg`;
+                                console.log(image);
+                                console.log(remotePath)
+
+                                const reference = storage().ref(remotePath);
+
+                                // uploads file
+                                const task = await reference.putFile(image);
+
+                                const url = await reference.getDownloadURL();
+
+                                dataToPost.profileImage = url;
+                                console.log(url)
+                                addInfo(dataToPost);
+
+                            }
+                            catch (err) {
+                                Toast.show({
+                                    type: 'error',
+                                    text1: 'Error',
+                                    text2: 'Facing error while adding user info 😐',
+                                    autoHide: true
+                                });
+                                dispatch(updateUserError(String(err)))
+                                console.error('Error while uploading image', JSON.stringify(err));
+                            }
+                        }
+                        //adding user info without user image
+                        else {
+
+                            addInfo(dataToPost);
+
+                        }
+                    }
+
+                }}
+            />
+            <Loader
+                showLoader={user.updateUserLoading}
             />
         </View>
     );

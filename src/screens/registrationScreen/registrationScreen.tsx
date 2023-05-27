@@ -9,17 +9,16 @@ import IconEn from 'react-native-vector-icons/Entypo';
 import TextBox from '../../components/general/textBox/textBox';
 import CustomButton from '../../components/general/customButton/customButton';
 import { validEmail } from '../../utils/functions/validations';
-import OtpModal from './otpModal';
 import auth, { } from '@react-native-firebase/auth';
 import { fontStyle } from '../../theme/fonts';
-import { authError, authSuccess, authLoading } from '../../redux/features/user/userSlice';
+import { authError, authSuccess, authLoadingSignUp } from '../../redux/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import colors from '../../theme/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Loader from '../../components/general/loader/loader';
 import Toast from 'react-native-toast-message';
 
-export default function Auth() {
+export default function Registration() {
 
 
 
@@ -27,21 +26,20 @@ export default function Auth() {
     const dispatch = useAppDispatch();
     const user = useAppSelector(state => state.user);
 
-
-    const [isOpen, setIsOpen] = useState(false);
     const [email, setEmail] = useState<string | null>(null);
     const [emailErr, setEmailErr] = useState<string | null>(null);
     const [pass, setPass] = useState<string | null>(null);
     const [passErr, setPassErr] = useState<string | null>(null);
+    const [passConfirm, setPassConfirm] = useState<string | null>(null);
+    const [passConfirmErr, setPassConfirmErr] = useState<string | null>(null);
 
- 
 
 
 
     const { styles, heightToDp: h, widthToDp: w } = useFunctionalOrientation(responsiveStyles);
 
 
-  
+
     return (
         <View style={styles.container}>
             <ScrollView
@@ -52,10 +50,10 @@ export default function Auth() {
                 />
                 <View style={styles.headingView}>
                     <Text style={styles.txtHeading} >
-                        Welcome Back...!
+                        Join Us Via
                     </Text>
                     <Text style={styles.txtHeading} >
-                        Enter Your Credentials
+                        Email Address
                     </Text>
                 </View>
                 {/* =====Email=== */}
@@ -98,15 +96,22 @@ export default function Auth() {
                     value={pass ? pass : ''}
 
                     onChangeText={(value) => {
-
+                        setPass(value);
                         if (value.length < 6) {
                             setPassErr("Password should be more than 5 characters long");
                         }
                         else {
                             setPassErr(null);
                         }
+                        if (passConfirm) {
+                            if (value != passConfirm) {
+                                setPassConfirmErr("Password did'nt match");
+                            }
+                            else {
+                                setPassConfirmErr(null);
+                            }
+                        }
 
-                        setPass(value);
                     }}
                 />
                 {
@@ -118,16 +123,47 @@ export default function Auth() {
                         {passErr}
                     </Text>
                 }
+                {/* ===password confirm==== */}
+                <TextBox
+                    icon={() => <IconEn name="key"
+                        style={styles.inputIconStyle}
+                    />}
+                    placeholder='Retype password'
+                    value={passConfirm ? passConfirm : ''}
+
+                    onChangeText={(value) => {
+                        setPassConfirm(value);
+
+                        if (pass) {
+                            if (value != pass) {
+                                setPassConfirmErr("Password did'nt match");
+                            }
+                            else {
+                                setPassConfirmErr(null);
+                            }
+                        }
+
+                    }}
+                />
+                {
+                    passConfirmErr && <Text
+                        allowFontScaling={fontStyle.fontScale}
+                        numberOfLines={1}
+                        style={styles.txtErr}
+                    >
+                        {passConfirmErr}
+                    </Text>
+                }
                 <CustomButton
-                    buttonText='Login'
-                    disabled={(Boolean(emailErr || passErr || !pass || !email))}
+                    buttonText='Register'
+                    disabled={(Boolean(emailErr || passErr || passConfirmErr || !pass || !email || !passConfirm))}
                     onPress={() => {
 
                         //auth loading
-                        dispatch(authLoading());
+                        dispatch(authLoadingSignUp());
 
                         auth()
-                            .signInWithEmailAndPassword(String(email), String(pass))
+                            .createUserWithEmailAndPassword(String(email), String(pass))
                             //if success
                             .then((data) => {
 
@@ -142,20 +178,20 @@ export default function Auth() {
                                     gender: "male",
                                     dob: null,
                                     phoneNumber: null,
-                                    profileImage:null
+                                    profileImage: null
                                 }));
 
-                                console.log("login success..!");
+                                console.log("Registration success..! 🥳");
                             })
                             .catch(error => {
 
-                                if (error.code === 'auth/user-not-found') {
+                                if (error.code === 'auth/email-already-in-use') {
                                     dispatch(authError("That email address is already in use!"));
                                     console.log('That email address is already in use!');
                                     Toast.show({
                                         type: 'errorMsg',
-                                        text1: 'Email not fround',
-                                        text2: 'auth/user-not-found! 😐',
+                                        text1: 'Try new email',
+                                        text2: 'That email address is already in use! 😐',
                                         autoHide: true
                                     });
                                 }
@@ -186,19 +222,19 @@ export default function Auth() {
                 />
                 <TouchableOpacity
                     style={{ marginTop: 10 }}
-                    onPress={() => navigation.navigate("Registration")}
+                    onPress={() => navigation.navigate("Auth")}
                 >
                     <Text
                         allowFontScaling={fontStyle.fontScale}
                         numberOfLines={1}
                         style={[styles.txtErr, { color: colors.white1 }]}
                     >
-                        Don't have an account? SIGN-UP HERE
+                        Already have an account? Login here
                     </Text>
                 </TouchableOpacity>
             </ScrollView>
-            <Loader showLoader={user.isLoading}
-                loadingText='Logging in..'
+            <Loader showLoader={user.isLoadingSignup}
+                loadingText='Loading...'
             />
         </View>
     );

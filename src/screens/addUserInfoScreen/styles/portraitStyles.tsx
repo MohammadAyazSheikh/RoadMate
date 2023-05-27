@@ -36,6 +36,7 @@ const portraitStyles = (w: p, h: p) => {
             height: w(30),
             borderColor: colors.yellow1,
             borderWidth: 3,
+            marginBottom: 30,
             borderRadius: w(30),
             justifyContent: 'center',
             alignItems: 'center'
@@ -54,14 +55,14 @@ const portraitStyles = (w: p, h: p) => {
             borderColor: colors.grey3,
             borderWidth: 2,
             borderRadius: w(7),
-            padding:3,
+            padding: 3,
             position: 'absolute',
             top: "0%",
             right: "0%"
         },
         iconPlusStyle: {
             fontSize: w(5),
-            color:colors.grey3,
+            color: colors.grey3,
         },
         inputIconStyle: {
             color: colors.yellow1,
