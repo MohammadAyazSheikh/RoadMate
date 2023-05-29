@@ -11,6 +11,7 @@ import CustomButton from '../../components/general/customButton/customButton';
 import { validEmail } from '../../utils/functions/validations';
 import OtpModal from './otpModal';
 import auth, { } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import { fontStyle } from '../../theme/fonts';
 import { authError, authSuccess, authLoading } from '../../redux/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -34,14 +35,14 @@ export default function Auth() {
     const [pass, setPass] = useState<string | null>(null);
     const [passErr, setPassErr] = useState<string | null>(null);
 
- 
+
 
 
 
     const { styles, heightToDp: h, widthToDp: w } = useFunctionalOrientation(responsiveStyles);
 
 
-  
+
     return (
         <View style={styles.container}>
             <ScrollView
@@ -129,23 +130,60 @@ export default function Auth() {
                         auth()
                             .signInWithEmailAndPassword(String(email), String(pass))
                             //if success
-                            .then((data) => {
+                            .then(async (data) => {
 
-                                console.log("===Sign in data====");
+                                console.log("===Sign in data from firebase====");
                                 console.log(JSON.stringify(data, null, 2));
 
-                                dispatch(authSuccess({
-                                    email: data.user.email,
-                                    userId: data.user.uid,
-                                    firstName: null,
-                                    lastName: null,
-                                    gender: "male",
-                                    dob: null,
-                                    phoneNumber: null,
-                                    profileImage:null
-                                }));
 
-                                console.log("login success..!");
+                                //now getting data of user 
+                                firestore()
+                                    .collection('Users')
+                                    .where('userId', '==', data.user.uid)
+                                    .get()
+                                    .then(user => {
+
+                                        if (user.empty) {
+                                            dispatch(authSuccess({
+                                                email: data.user.email,
+                                                userId: data.user.uid,
+                                                firstName: null,
+                                                lastName: null,
+                                                gender: "male",
+                                                dob: null,
+                                                phoneNumber: null,
+                                                profileImage: null
+                                            }));
+                                        }
+                                        else {
+                                            const userData = user.docs[0].data();
+
+                                            console.log(userData)
+                                            dispatch(authSuccess({
+                                                email: data.user.email,
+                                                userId: data.user.uid,
+                                                firstName: userData.firstName,
+                                                lastName: userData.lastName,
+                                                gender: userData.gender,
+                                                dob: userData.dob,
+                                                phoneNumber: userData.phoneNumber,
+                                                profileImage: userData.profileImage
+                                            }));
+                                        }
+                                    })
+                                    .catch(err => {
+                                        console.error("Get User Error", err);
+                                        dispatch(authError(String(err)));
+
+                                        Toast.show({
+                                            type: 'errorMsg',
+                                            text1: 'Something went wrong',
+                                            text2: `${err} 😐`,
+                                            autoHide: true
+                                        });
+                                    });
+
+
                             })
                             .catch(error => {
 

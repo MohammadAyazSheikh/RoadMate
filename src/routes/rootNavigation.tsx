@@ -3,21 +3,23 @@ import { StatusBar, View, Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import colors from '../theme/colors';
+import RootTab from './rootBottomTab/rootBottomTab';
 import AuthScreen from '../screens/authScreen/authScreen';
 import Splash from '../screens/splashScreen/splashScreen';
 import Registration from '../screens/registrationScreen/registrationScreen';
 import AddUserInfo from '../screens/addUserInfoScreen/addUserInfoScreen';
-import RootDrawer from './rootDrawer/rootDrawer';
+import ShareRideScreen from '../screens/shareRideScreen/shareRideScreen';
 import { useAppSelector } from './../redux/hooks';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { fontFamily } from '../theme/fonts';
 
 export type RootStackProps = {
+  RootTab: undefined;
   Splash: undefined;
   Auth: undefined;
   Registration: undefined;
-  User: undefined;
   AddUserInfo: undefined;
-  RootDrawer: undefined;
+  ShareRide: undefined
 };
 
 const Screen = () => {
@@ -68,13 +70,19 @@ const UserRoute = () => {
   return (
     <>
       <Stack.Screen
-        name="User"
-        component={Screen}
+        name="RootTab"
+        component={RootTab}
         options={{
           headerShown: false,
         }}
       />
-
+      <Stack.Screen
+        name='ShareRide'
+        component={ShareRideScreen}
+        options={{
+          headerTitle:"Create New Ride"
+        }}
+      />
     </>
   );
 };
@@ -140,12 +148,13 @@ function RootNav() {
       <Stack.Navigator
         initialRouteName={"Splash"}
         screenOptions={{
-          headerTintColor: '#fff',
+          headerTintColor: colors.grey1,
           headerStyle: {
-            backgroundColor: 'tomato',
+            backgroundColor: colors.yellow1,
+            height: 45,
           },
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontFamily: fontFamily.bold
           },
           // animationEnabled: false
         }}>
