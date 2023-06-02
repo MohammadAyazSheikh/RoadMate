@@ -25,7 +25,7 @@ const TextBox = ({ icon: Icon, iconPosition = "left", inputViewStyle = {}, input
         <View style={[
             styles.inputView,
             isFocused && styles.inputViewFocus,
-            inputViewStyle, isFocused && inputViewFocusStyle]}>
+            inputViewStyle]}>
             {iconPosition == "left" && Icon && <Icon />}
             <TextInput
                

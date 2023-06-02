@@ -10,22 +10,28 @@ const landscapeStyles = (w: p, h: p) => {
 
     return StyleSheet.create({
 
-        btnView: {
+        //text input
+        inputView: {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: colors.yellow1,
-            width: "95%",
-            height: w(6.5),
+            backgroundColor: colors.grey2,
+            width: w(95),
+            height: 55,
             borderRadius: radius.radius1,
-            paddingHorizontal: spacing.spacing2,
+            paddingHorizontal: spacing.spacing1,
             marginVertical: 5,
         },
-        txtBtn: {
-            color: colors.grey1,
-            fontFamily: fontFamily.bold,
+        inputViewFocus: {
+            borderWidth: 1,
+            borderColor: colors.yellow1,
+        },
+        inputStyle: {
+            color: colors.yellow1,
+            flex: 1,
+            fontFamily: fontFamily.regular,
             fontSize: h(fontSize.size7)
-        }
+        },
     });
 }
 

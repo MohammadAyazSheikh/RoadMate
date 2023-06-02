@@ -27,8 +27,6 @@ export default function Home() {
 
     const navigation = useNavigation<StackNavigationProp<RootStackProps>>();
 
-
-
     const { styles, heightToDp: h, widthToDp: w } = useFunctionalOrientation(responsiveStyles);
 
 
@@ -45,6 +43,9 @@ export default function Home() {
             {/* book ride card */}
             <TouchableOpacity style={styles.cardStyle}
                 activeOpacity={0.9}
+                onPress={() => {
+                    navigation.navigate("SearchRide");
+                }}
             >
                 <View style={styles.animView}>
                     <Lottie
@@ -64,7 +65,7 @@ export default function Home() {
             {/* share ride card */}
             <TouchableOpacity style={styles.cardStyle}
                 activeOpacity={0.9}
-                onPress={()=>{
+                onPress={() => {
                     navigation.navigate("ShareRide");
                 }}
             >

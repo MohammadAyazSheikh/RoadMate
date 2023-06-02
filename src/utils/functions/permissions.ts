@@ -1,4 +1,4 @@
-import { Platform, PermissionsAndroid, } from 'react-native';
+import { Platform, PermissionsAndroid, Alert, } from 'react-native';
 
 
 //audio permission
@@ -60,6 +60,6 @@ export const requestLocationPermission = async () => {
         }
     } catch (err) {
         console.log(err);
-        alert("error getting location")
+       Alert.alert("error getting location")
     }
 };

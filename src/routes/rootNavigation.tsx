@@ -12,6 +12,7 @@ import ShareRideScreen from '../screens/shareRideScreen/shareRideScreen';
 import { useAppSelector } from './../redux/hooks';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { fontFamily } from '../theme/fonts';
+import SearchRide from '../screens/searchRide/searchRide';
 
 export type RootStackProps = {
   RootTab: undefined;
@@ -19,7 +20,8 @@ export type RootStackProps = {
   Auth: undefined;
   Registration: undefined;
   AddUserInfo: undefined;
-  ShareRide: undefined
+  ShareRide: undefined;
+  SearchRide: undefined
 };
 
 const Screen = () => {
@@ -80,7 +82,14 @@ const UserRoute = () => {
         name='ShareRide'
         component={ShareRideScreen}
         options={{
-          headerTitle:"Create New Ride"
+          headerTitle: "Share Ride"
+        }}
+      />
+      <Stack.Screen
+        name='SearchRide'
+        component={SearchRide}
+        options={{
+          headerTitle: "Search Ride"
         }}
       />
     </>

@@ -19,7 +19,25 @@ const portraitStyles = (w: p, h: p) => {
         },
         scrollView: {
             width: w(100),
-            alignItems: 'center'
+            alignItems: 'center',
+            paddingBottom: 15,
+        },
+
+        imgIconView: {
+            width: w(50),
+            aspectRatio: 1,
+            borderColor: colors.yellow1,
+            borderWidth: 3,
+            marginVertical: 30,
+            borderRadius: w(50),
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: colors.grey3
+        },
+        imgIcon: {
+            width: "70%",
+            height: "70%",
+            resizeMode: 'contain',
         },
         inputIconStyle: {
             color: colors.yellow1,

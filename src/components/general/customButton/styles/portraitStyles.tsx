@@ -17,13 +17,13 @@ const portraitStyles = (w: p, h: p) => {
             backgroundColor: colors.yellow1,
             width: "95%",
             height: h(6.5),
-            borderRadius: w(55) / 2,
+            borderRadius: radius.radius1,
             paddingHorizontal: spacing.spacing2,
             marginVertical: 5,
         },
         txtBtn: {
             color: colors.grey1,
-            fontFamily: fontFamily.regular,
+            fontFamily: fontFamily.bold,
             fontSize: w(fontSize.size7)
         }
     });
