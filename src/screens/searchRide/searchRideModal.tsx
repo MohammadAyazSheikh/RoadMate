@@ -186,12 +186,14 @@ export default function SearchRideModal({
                                                     const latTo1 = data.to.latitude;
                                                     const lonTo1 = data.to.longitude;
 
-                                                    const distanceFrom = calculateDistance(latFrom1, lonFrom1, from.latitude, from.longitude);
+                                                    const distanceFrom = calculateDistance(latFrom1, lonFrom1, from.latitude!, from.longitude!);
 
-                                                    const distanceTo = calculateDistance(latTo1, lonTo1, to.latitude, to.longitude);
+                                                    const distanceTo = calculateDistance(latTo1, lonTo1, to.latitude!, to.longitude!);
 
                                                     //only return the items which are in radius of rider defined distance
-                                                    if ((distanceFrom < data.distance) && (distanceTo < data.distance))
+                                                    if ((distanceFrom < data.distance) && (distanceTo < data.distance)
+                                                        && data.rider.userId != user.user?.userId &&
+                                                        data.availableSeats > 0)
                                                         return true;
                                                     else
                                                         false;

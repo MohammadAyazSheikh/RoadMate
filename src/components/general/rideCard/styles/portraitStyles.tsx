@@ -22,7 +22,7 @@ const portraitStyles = (w: p, h: p) => {
             paddingVertical: 10,
             paddingHorizontal: 10,
             borderRadius: radius.radius1,
-            marginVertical:10,
+            marginVertical: 10,
         },
         row: {
             width: '100%',
@@ -50,7 +50,7 @@ const portraitStyles = (w: p, h: p) => {
             color: colors.white1,
             fontFamily: fontFamily.bold,
             fontSize: 20,
-            marginRight: 5,
+
         },
         locationRow: {
             flexDirection: "row",
@@ -62,7 +62,7 @@ const portraitStyles = (w: p, h: p) => {
         },
         locationInnerRow: {
             flexDirection: "row",
-            flex:1,
+            flex: 1,
             height: 50,
         },
         dotView: {
@@ -91,7 +91,7 @@ const portraitStyles = (w: p, h: p) => {
             opacity: 0.8
         },
         locationTextView: {
-            flex:1,
+            flex: 1,
             height: "100%",
             justifyContent: "space-between",
             paddingLeft: 5
@@ -116,7 +116,7 @@ const portraitStyles = (w: p, h: p) => {
             borderWidth: 1,
             justifyContent: "center",
             alignItems: 'center',
-            marginRight:5,
+            marginRight: 5,
         },
         img: {
             width: "100%",
@@ -125,14 +125,64 @@ const portraitStyles = (w: p, h: p) => {
             borderColor: colors.yellow1,
             borderWidth: 1
         },
-        btn:{
-            width:"100%",
-            justifyContent:'center',
-            alignItems:'center',
-            marginTop:10,
-            paddingVertical:10,
-            borderRadius:radius.radius1,
-            backgroundColor:colors.yellow1
+        seatsSelectorView: {
+            marginVertical: 10,
+            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+        },
+        seatsBtnRow: {
+            width: "30%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+        },
+        btnSeat: {
+            height: 25,
+            width: 25,
+            borderRadius: radius.radius1,
+            justifyContent: 'center',
+            alignItems: "center",
+            backgroundColor: colors.yellow1
+        },
+        txtBtnSeat: {
+            color: colors.grey1,
+            fontFamily: fontFamily.bold,
+            fontSize: 20
+        },
+        btn: {
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 10,
+            paddingVertical: 10,
+            borderRadius: radius.radius1,
+            backgroundColor: colors.yellow1
+        },
+
+        // styles for button row accept/reject/ etc
+        bottomBtnRow: {
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            paddingVertical: 10,
+        },
+        btnHalf: {
+            width: "40%",
+            flexDirection: "row",
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingVertical: 12,
+            borderRadius: radius.radius1,
+            backgroundColor: colors.yellow1
+        },
+        txtBtnHalf: {
+            color: colors.white1,
+            fontFamily: fontFamily.bold,
+            fontSize: 20
         },
     });
 }

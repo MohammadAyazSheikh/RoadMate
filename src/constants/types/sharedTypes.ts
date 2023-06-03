@@ -28,3 +28,13 @@ export type rideType = {
     distance: number,
     price: number,
 }
+
+export type ridesStatusType = "pending" | "completed" | "accepted" | "rejected" | "cancelledByRider" | "cancelledByBooker"
+
+export type rideReqType = {
+    id?: string,
+    bookedSeats: number,
+    status: ridesStatusType,
+    ride: rideType,
+    passenger: userType,
+}

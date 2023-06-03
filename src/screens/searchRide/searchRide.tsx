@@ -1,37 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, } from 'react';
 import { View, Image, Text, FlatList, ActivityIndicator, } from 'react-native';
 import { useFunctionalOrientation } from '../../utils/functions/responsiveUtils';
 import responsiveStyles from './styles/styles';
 import { useNavigation } from '@react-navigation/core';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackProps } from '../../routes/rootNavigation';
-import IconEn from 'react-native-vector-icons/Entypo';
 import IconFa from 'react-native-vector-icons/FontAwesome';
-import IconAnt from 'react-native-vector-icons/AntDesign';
-import IconMtc from 'react-native-vector-icons/MaterialCommunityIcons';
 import TextBox from '../../components/general/textBox/textBox';
-import CustomButton from '../../components/general/customButton/customButton';
-import { validEmail } from '../../utils/functions/validations';
-import auth, { } from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import { fontStyle } from '../../theme/fonts';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import LocationSelector from '../../components/general/locationSelectorModal/locationSelector';
-import Toast from 'react-native-toast-message';
-import moment from "moment";
-import { locationType, rideType, userType } from '../../constants/types/sharedTypes';
-import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import Loader from '../../components/general/loader/loader';
-import RideCard from '../../components/general/rideCard/rideCart';
+import { rideType } from '../../constants/types/sharedTypes';
+import RideCard from '../../components/general/rideCard/rideSearchCard';
 import SearchRideModal from './searchRideModal';
 import colors from '../../theme/colors';
-
-const initialRegion = {
-    latitude: 24.8607,
-    longitude: 67.0011,
-    latitudeDelta: 0.0001,
-    longitudeDelta: 0.0001,
-}
 
 
 export default function ShareRide() {
@@ -40,7 +21,7 @@ export default function ShareRide() {
 
     const navigation = useNavigation<StackNavigationProp<RootStackProps>>();
     const dispatch = useAppDispatch();
-    const user = useAppSelector(state => state.user);
+
 
     const [rideList, setRideList] = useState<rideType[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -85,10 +66,10 @@ export default function ShareRide() {
                         />
                     </View>
                     :
-                    rideList != null && rideList.length < 1 ?
+                    rideList == null  ?
                         <View style={styles.imgEmptyView}>
                             <Image
-                                source={require('../../../assets/icons/search.png')}
+                                source={require('../../../assets/icons/searchCar.png')}
                                 style={styles.imgEmpty}
                             />
                             <Text
@@ -96,31 +77,46 @@ export default function ShareRide() {
                                 numberOfLines={1}
                                 style={styles.txtEmpty}
                             >
-                                Not ride found near you
+                                Search ride near you
                             </Text>
                         </View>
-
                         :
-                        <FlatList
-                            contentContainerStyle={styles.scrollCard}
-                            keyExtractor={({ id }) => id!}
-                            data={rideList}
-                            renderItem={({ item }) => {
-                                return (
-                                    <RideCard
-                                        rider={item.rider}
-                                        to={item.to}
-                                        from={item.from}
-                                        price={item.price}
-                                        date={item.date}
-                                        time={item.time}
-                                        distance={item.distance}
-                                        totalSeats={item.totalSeats}
-                                        availableSeats={item.availableSeats}
-                                    />
-                                )
-                            }}
-                        />
+                        rideList != null && rideList.length < 1 ?
+                            <View style={styles.imgEmptyView}>
+                                <Image
+                                    source={require('../../../assets/icons/empty-box.png')}
+                                    style={styles.imgEmpty}
+                                />
+                                <Text
+                                    allowFontScaling={fontStyle.fontScale}
+                                    numberOfLines={1}
+                                    style={styles.txtEmpty}
+                                >
+                                    No ride found near you
+                                </Text>
+                            </View>
+                            :
+                            <FlatList
+                                contentContainerStyle={styles.scrollCard}
+                                keyExtractor={({ id }) => id!}
+                                data={rideList}
+                                renderItem={({ item }) => {
+                                    return (
+                                        <RideCard
+                                            id={item.id}
+                                            rider={item.rider}
+                                            to={item.to}
+                                            from={item.from}
+                                            price={item.price}
+                                            date={item.date}
+                                            time={item.time}
+                                            distance={item.distance}
+                                            totalSeats={item.totalSeats}
+                                            availableSeats={item.availableSeats}
+                                        />
+                                    )
+                                }}
+                            />
             }
             {/* search ride modal */}
             <SearchRideModal

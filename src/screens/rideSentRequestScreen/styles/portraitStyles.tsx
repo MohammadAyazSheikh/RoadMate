@@ -45,17 +45,17 @@ const portraitStyles = (w: p, h: p) => {
         imgIconView: {
             width: w(30),
             aspectRatio: 1,
-            borderRadius: 100,
-            borderColor: colors.yellow1,
-            borderWidth: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginVertical: 10,
-            backgroundColor: colors.grey2
+            borderRadius:100,
+            borderColor:colors.yellow1,
+            borderWidth:1,
+            justifyContent:'center',
+            alignItems:'center',
+            marginVertical:10,
+            backgroundColor:colors.grey2
         },
         imgIcon: {
             width: "70%",
-            height: "70%"
+            height:"70%"
         },
         txtErr: {
             color: colors.tomato,
@@ -75,8 +75,9 @@ const portraitStyles = (w: p, h: p) => {
         container: {
             flex: 1,
             backgroundColor: colors.grey1,
-            justifyContent: 'space-evenly',
+            justifyContent: "center",
             alignItems: 'center',
+
         },
         scrollCard: {
             width: w(100),
@@ -84,23 +85,24 @@ const portraitStyles = (w: p, h: p) => {
             paddingBottom: 20,
         },
         imgEmptyView: {
-            flex: 1,
+            height: '100%',
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
-            paddingTop:100,
-            // backgroundColor: colors.grey2
+            paddingHorizontal:10,
         },
         imgEmpty: {
             width: w(50),
             height: w(50),
             resizeMode: 'contain',
+         
         },
         txtEmpty: {
             color: colors.white1,
             fontFamily: fontFamily.bold,
             fontSize: w(fontSize.size9),
             marginTop: 10,
+            textAlign:"center"
         },
     });
 }

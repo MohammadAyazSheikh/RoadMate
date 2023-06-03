@@ -24,15 +24,6 @@ export type RootStackProps = {
   SearchRide: undefined
 };
 
-const Screen = () => {
-  return (
-    <View>
-      <Text>
-        test
-      </Text>
-    </View>
-  )
-}
 
 
 const Stack = createStackNavigator<RootStackProps>();

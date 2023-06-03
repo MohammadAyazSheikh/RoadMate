@@ -5,6 +5,8 @@ import colors from "../../theme/colors";
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFn from 'react-native-vector-icons/Fontisto'
 import Home from '../../screens/homeScreen/homeScreen';
+import Profile from "../../screens/profileScreen/profileScreen";
+import TopRideReqTab from "../topRideRequestTab/topRideRequestTab";
 
 const Screen = () => {
     return (
@@ -20,7 +22,7 @@ const Screen = () => {
 export type RootTabProps = {
     Home: undefined;
     Profile: undefined;
-    Notification: undefined
+    Rides: undefined
 };
 
 const Tab = createBottomTabNavigator<RootTabProps>();
@@ -51,19 +53,19 @@ const RootTab = () => {
                     ),
                 }}
             />
-            <Tab.Screen name="Notification" component={Screen}
+            <Tab.Screen name="Rides" component={TopRideReqTab}
 
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
                         <IconFn
-                            name="bell"
+                            name="car"
                             color={color}
                             size={focused ? 25 : 20}
                         />
                     ),
                 }}
             />
-            <Tab.Screen name="Profile" component={Screen}
+            <Tab.Screen name="Profile" component={Profile}
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
                         <IconAnt

@@ -1,11 +1,11 @@
 
 //function to calculate distance between 2 points
 
-function degToRad(degrees) {
+function degToRad(degrees: number) {
     return degrees * (Math.PI / 180);
 }
 
-export function calculateDistance(lat1, lon1, lat2, lon2) {
+export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
     const earthRadius = 6371; // Radius of the earth in kilometers
     const dLat = degToRad(lat2 - lat1);
     const dLon = degToRad(lon2 - lon1);
@@ -19,6 +19,6 @@ export function calculateDistance(lat1, lon1, lat2, lon2) {
     const distance = earthRadius * c;
 
     //multiply 1000 to get in meters
-    return distance*1000;
+    return distance * 1000;
 }
 
