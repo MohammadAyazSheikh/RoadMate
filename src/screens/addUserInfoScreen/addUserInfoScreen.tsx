@@ -17,7 +17,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
 import { validateName } from '../../utils/functions/validations';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { updateUserError, updateUserLoading, updateUserSuccess, userType } from '../../redux/features/user/userSlice';
+import { updateUserError, updateUserLoading, updateUserSuccess, userType ,authSuccess} from '../../redux/features/user/userSlice';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import Loader from '../../components/general/loader/loader';
@@ -31,13 +31,13 @@ export default function AddUserInfo() {
     const dispatch = useAppDispatch();
     const user = useAppSelector(state => state.user);
 
-    const [firstName, setFirstName] = useState<string | null>(null);
+    const [firstName, setFirstName] = useState<string | null>(user?.user?.firstName!);
     const [firstNameErr, setFirstNameErr] = useState<string | null>(null);
-    const [lastName, setLastName] = useState<string | null>(null);
+    const [lastName, setLastName] = useState<string | null>(user?.user?.lastName!);
     const [lastNameErr, setLastNameErr] = useState<string | null>(null);
-    const [image, setImage] = useState<string | null>(null);
-    const [gender, setGender] = useState<"male" | "female">("male");
-    const [dob, setDob] = useState<Date>(new Date());
+    const [image, setImage] = useState<string | null>(user?.user?.profileImage!);
+    const [gender, setGender] = useState<"male" | "female">(user?.user?.gender!);
+    const [dob, setDob] = useState<Date>(user?.user?.dob ? user?.user?.dob : new Date());
 
     const navigation = useNavigation<StackNavigationProp<RootStackProps>>();
 
@@ -64,13 +64,15 @@ export default function AddUserInfo() {
     const addInfo = (dataToPost: userType) => {
 
         console.log(JSON.stringify(dataToPost, null, 2));
-        // dispatch(updateUserSuccess(dataToPost));
+
         //saving in firebase
         firestore()
             .collection('Users')
             .add(dataToPost)
             .then(() => {
                 dispatch(updateUserSuccess(dataToPost));
+
+                // dispatch(authSuccess(dataToPost));
                 Toast.show({
                     type: 'successMsg',
                     text1: 'Welcome To RoadMate',

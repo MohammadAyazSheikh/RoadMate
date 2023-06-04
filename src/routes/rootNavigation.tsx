@@ -83,6 +83,13 @@ const UserRoute = () => {
           headerTitle: "Search Ride"
         }}
       />
+      <Stack.Screen
+        name="AddUserInfo"
+        component={AddUserInfo}
+        options={{
+          headerShown: false,
+        }}
+      />
     </>
   );
 };

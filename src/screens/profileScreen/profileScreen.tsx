@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Image, Text, FlatList,ActivityIndicator } from 'react-native';
+import { View, Image, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useFunctionalOrientation } from '../../utils/functions/responsiveUtils';
 import responsiveStyles from './styles/styles';
 import { useNavigation } from '@react-navigation/core';
@@ -15,7 +15,6 @@ import { fontStyle } from '../../theme/fonts';
 import { authError, authSuccess, authLoading } from '../../redux/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import colors from '../../theme/colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Loader from '../../components/general/loader/loader';
 import Toast from 'react-native-toast-message';
 import Lottie from 'lottie-react-native';
@@ -80,7 +79,11 @@ export default function Profile() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.row}>
+            <TouchableOpacity style={styles.row}
+                onPress={() => {
+                    navigation.navigate("AddUserInfo")
+                }}
+            >
                 <View style={styles.imageView}>
                     {
                         user?.user?.profileImage ?
@@ -102,7 +105,7 @@ export default function Profile() {
                 >
                     {`${user?.user?.firstName} ${user?.user?.lastName}`}
                 </Text>
-            </View>
+            </TouchableOpacity>
             <CustomButton
                 buttonText='Logout'
                 style={styles.btnStyle}
